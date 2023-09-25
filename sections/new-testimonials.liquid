@@ -1,0 +1,260 @@
+{% comment %}New section added by KoderWeb{% endcomment %}
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<style>
+	#shopify-section-{{ section.id }}{
+		--background: {{ section.settings.section_background  }};
+		--card_background: {{ section.settings.card_background  }};
+		--text_color: {{ section.settings.text_color  }};
+		--rating_verified: {{ section.settings.rating_verified  }};
+		--dot_color: {{ section.settings.dot_color  }};
+		--theight: {{ section.settings.height | times: 10 }}px;
+	}
+	@media screen and (max-width: 1400px){
+		#shopify-section-{{ section.id }}{
+			--theight: {{ section.settings.height | minus: 6 | times: 10 }}px;
+		}
+	}
+	@media screen and (max-width: 1024px){
+		#shopify-section-{{ section.id }}{
+			--theight: {{ section.settings.height | minus: 3 | times: 10 }}px;
+		}
+	}
+	@media screen and (max-width: 768px){
+		#shopify-section-{{ section.id }}{
+			--theight: {{ section.settings.height | minus: 6 | times: 10 }}px;
+		}
+	}
+	@media screen and (max-width: 480px){
+		#shopify-section-{{ section.id }}{
+			--theight: {{ section.settings.height | minus: 17 | times: 10 }}px;
+		}
+	}
+	@media screen and (max-width: 374px){
+		#shopify-section-{{ section.id }}{
+			--theight: {{ section.settings.height | minus: 15 | times: 10 }}px;
+		}
+	}
+</style>
+
+{%- liquid
+    assign image_aspect_ratio = false
+    assign cover = false
+    if section.settings.image_shape == 'landscape'
+      assign image_aspect_ratio = 1.25
+      assign cover = true
+    elsif section.settings.image_shape == 'square'
+      assign image_aspect_ratio = 1.0
+      assign cover = true
+    elsif section.settings.image_shape == 'portrait'
+      assign image_aspect_ratio = 0.8
+      assign cover = true
+    else  
+      assign image_aspect_ratio = 1
+      assign cover = true
+    endif
+  -%}
+
+
+<div id="section-id-{{ section.id }}" data-section-type="new-testimonials" data-cc-animate data-cc-animate-delay="0.2s">
+	<div class="new-testimonials-width">
+		{% if section.settings.title != blank %}
+	        <div class="new-testimonials-heading majortitle in-content h1-style">{{ section.settings.title | escape }}</div>
+	    {% endif %}
+
+		<div class="new-testimonials">
+
+		  <div class="new-testimonials-wrap new-testimonials-slider">
+		  	{%- for block in section.blocks -%}
+			    <div class="new-testimonials-item">
+			    	<div class="t-i-t-wrap">
+
+			    		{% if block.settings.image != blank %}
+			    		<div class="image">
+			    			{%- render 'responsive-image', image: block.settings.image, manual_image_load: false, aspect_ratio: image_aspect_ratio, cover: cover -%}
+			    		</div>
+			    		{% else %}
+			    		<div class="image">
+			    			<div class="placeholder-image" style="padding-top:{{ 100.0 | divided_by: image_aspect_ratio | round }}%">{{ 'image' | placeholder_svg_tag }}</div>
+			    		</div>
+			    		{% endif %}
+
+			    		{% if block.settings.title != blank or block.settings.des != blank or block.settings.name != blank or block.settings.verified == true %}
+			    		<div class="t-content-wrap">
+				    		<div class="t-rating">
+				    			<span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="" fill="currentcolor"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"></path></svg></span><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="" fill="currentcolor"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"></path></svg></span><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="" fill="currentcolor"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"></path></svg></span><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="" fill="currentcolor"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"></path></svg></span><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="" fill="currentcolor"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"></path></svg></span>
+				    		</div>
+
+				    		{% if block.settings.title != blank %}
+				    		<div class="t-heading">
+				    			{{ block.settings.title }}
+				    		</div>
+				    		{% endif %}
+
+				    		{% if block.settings.des != blank %}
+				    		<div class="t-des">
+				    			{{ block.settings.des }}
+				    		</div>
+				    		{% endif %}
+
+				    		{% if block.settings.name != blank or block.settings.verified != blank%}
+				    		<div class="t-name-verified">
+					    		{% if block.settings.name != blank %}
+					    		<div class="t-name">
+					    			{{ block.settings.name }}
+					    		</div>
+					    		{% endif %}
+
+					    		{% if block.settings.verified != blank %}
+					    		<div class="t-verified">
+					    			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50px" height="50px"><path d="M45.103,24.995l3.195-6.245l-5.892-3.807l-0.354-7.006l-7.006-0.35l-3.81-5.89l-6.242,3.2l-6.245-3.196l-3.806,5.893 L7.938,7.948l-0.352,7.007l-5.89,3.81l3.2,6.242L1.702,31.25l5.892,3.807l0.354,7.006l7.006,0.35l3.81,5.891l6.242-3.2l6.245,3.195 l3.806-5.893l7.005-0.354l0.352-7.006l5.89-3.81L45.103,24.995z M22.24,32.562l-6.82-6.819l2.121-2.121l4.732,4.731l10.202-9.888 l2.088,2.154L22.24,32.562z"></path></svg>
+					    			{{ block.settings.verified }}
+					    		</div>
+					    		{% endif %}
+				    		</div>
+				    		{% endif %}
+
+
+			    		</div>
+			    		{% endif %}
+
+			    	</div>
+			    </div>
+			     
+		    {%- endfor -%}
+		  </div>
+
+		  <div class="new-navigation-pagination">
+		  	<div class="new-naviation-middle">
+
+			  	<div class="slick-button-prev">
+			  		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor"><path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path></svg>
+			  	</div>
+
+			  	<div class="bulet-wrap">
+			  		<div class="slick-slider-dots"></div>
+			  	</div>
+
+				<div class="slick-button-next">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path></svg>
+				</div>
+
+			</div>
+		  </div>
+
+		</div>
+	</div>
+</div>
+{% schema %}
+  {
+    "name": "New testimonials",
+    "class": "section-new-testimonials",
+    "settings": [
+	      {
+	        "type": "text",
+	        "id": "title",
+	        "label": "Heading",
+	        "default": "Heading"
+	      },
+	      {
+	        "type": "range",
+	        "id": "height",
+	        "label": "Equal height",
+	        "min": 40,
+	        "max": 140,
+	        "default": 91,
+	        "unit": "rem"
+	      },
+	      {
+	        "type": "color",
+	        "id": "section_background",
+	        "label": "Background",
+	        "default": "#f9eeca"
+	      },
+	      {
+	        "type": "color",
+	        "id": "card_background",
+	        "label": "Card Background",
+	        "default": "#fff4f4"
+	      },
+	      {
+	        "type": "color",
+	        "id": "text_color",
+	        "label": "Text color",
+	        "default": "#000"
+	      },
+	      {
+	        "type": "color",
+	        "id": "rating_verified",
+	        "label": "Rating and verifed color",
+	        "default": "#a85a73"
+	      },
+	      {
+	        "type": "color",
+	        "id": "dot_color",
+	        "label": "Dot color",
+	        "default": "#000"
+	      }
+    ],
+    "blocks": [
+      {
+        "type": "testimonial",
+        "name": "Testimonial",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image",
+            "info": "480 x 480px recommended"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Heading"
+          },
+          {
+            "type": "richtext",
+            "id": "des",
+            "label": "Text",
+            "default": "<p>Add your text</p>"
+          },
+          {
+            "type": "text",
+            "id": "name",
+            "label": "Name",
+            "default": "Name"
+          },
+          {
+            "type": "text",
+            "id": "verified",
+            "label": "Verified",
+            "default": "Verified Buyer"
+          }  
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "New testimonials",
+        "settings": {
+        },
+        "blocks": [
+          {
+            "type": "testimonial"
+          },
+          {
+            "type": "testimonial"
+          },
+          {
+            "type": "testimonial"
+          },
+          {
+            "type": "testimonial"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
